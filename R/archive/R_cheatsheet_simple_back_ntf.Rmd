@@ -1,0 +1,272 @@
+---
+title: ""
+output:
+  html_document:
+    css: "css/gray_style.css"
+---
+
+```{r setup, include=F}
+knitr::opts_chunk$set(echo=TRUE, eval=FALSE, error=F, message=F, warning=F)
+library("rmarkdown")
+htmltools::tagList(rmarkdown::html_dependency_font_awesome())
+```
+
+<div class="banner" style="margin-bottom: 0px;"><div class="left">
+<h1 style="margin-left: 20px; color: #cfcfcf; margin-top: 10px; font-size: 58px;"> R <span style="font-size: 25px;"><i class="fas fa-cloud"></i><i class="fas fa-tint"></i><i class="fas fa-seedling"></i><i class="fas fa-tree"></i></span></h1>
+
+<h2 style="margin-left: 20px; color: #cfcfcf; margin-top: -34px;"> For Environmental Data </h2>
+</div>
+
+<div class="right" style="margin-left: 7%; width: 37%;">
+<h5 style="margin-left: 20px; color: #cfcfcf; margin-top: 56px;"> Online @ <span style="font-size: 17px; color: white;"> itep-R.netlify.com </span></h5>
+
+<h5 style="margin-left: 20px; color: #cfcfcf;"> Porgs are not for dinner.</h5>
+</div></div>
+
+
+<div class="clearbox" style="width: 21.4%; clear: both;">
+<div class="header"> SELECT COLUMNS</div>
+<div class="linebox">
+```{r}
+library(dplyr)
+# Keep only 2 columns
+select(porgs, id, age)
+# Drop the mass column
+select(porgs, -mass)
+# Put the age column first, but
+# keep everything else the same
+select(porgs, age, everything())
+```
+</div>
+
+<div class="header"> SORT ROWS </div>
+<div class="linebox">
+```{r}
+# Sort by age w/ YOUNGEST on top
+arrange(porgs, age)
+# Sort by age w/ ELDEST on top
+arrange(porgs, desc(age))
+# Sort by color and then by age
+arrange(porgs, color, desc(age))
+```
+</div>
+
+![](sm_porg.png){style="float: left; width: 25%; margin-left: 35%; margin-top: 142px;"}
+![](porg.png){style="float: left; width: 35%; margin-top: 26px;"}
+![](60cm.png){style="float: left; width: 44%; margin-top: -137px; margin-left: 64px;"}
+
+
+</div>
+
+
+<div class="clearbox" style="width: 25.7%;">
+<div class="header"> <i class="fas fa-calendar"></i> DATES </div>
+<div class="fullbox" style="width: 100%;">
+<div class="in-header"> Convert text to Date </div>
+<div style="margin-left: 6px;  margin-top: -12px;">
+
+| Function    |  Order of Input             |   Output |
+|----|:-------------------------------------------------|----------|
+|`mdy()  `    | Month-Day-Year :: `05-18-2019`                         | `2019-05-18`                |
+|`mdy_hm() `  | Month-Day-Year Hour:Minutes ::  `05-18-2019 8:35`      | `2019-05-18` `08:35:00 UTC` |
+|`mdy_hms() ` | Month-Day-Year Hour:Mins:Secs ::  `05-18-2019 8:35:22` | `2019-05-18` `08:35:22 UTC` |
+
+</div>
+
+<div class="in-header"> Date parts </div>
+<div style="margin-left: 6px; margin-top: -12px;">
+
+| Function  |  Date element             |   
+|----|:--------------------------|  
+|`year()  `  | Year              |  
+|`month() `  | Month as _1,2,3_  |  
+|`day()  `   | Day of the month  |  
+|`wday()`    | Day of the week   |     
+|`hour() `   | Hour of the day _(24hr)_ |  
+|`tz() `     | Time zone         | 
+  
+</div>
+</div></div>
+
+<div class="clearbox" style="width: 48.2%; margin-left: 20px;">
+<div class="header"> JOIN TABLES </div>
+<div class="linebox" style="width: 100%;">
+<p class="in-header" style="font-size: 14px; margin-bottom: 3px;">
+`left_join()` keeps all rows and columns in the left table, but only keeps rows in the right table that match. </p>
+
+<div style="width: 47.4%; float: left; margin-top:6px;">
+
+```{r}
+# Table w/ porg ages and heights
+porgs
+
+# Table w/ porg names
+porg_names
+
+# Join together by id columns
+together <- left_join(porgs, 
+                      porg_names, 
+                      by = "id")
+
+
+```
+</div>
+
+<div class="fullbox" style="width: 50.6%; margin-left: 10px;">
+
+![](leftjoin_porgs.png){style="margin-top: 2px; margin-bottom: -4px;"}
+
+</div></div>
+
+
+<div class="header"> SAVE DATA </div>
+<div class="linebox" style="width: 49.9%; padding-bottom: 15px;">
+<div class="in-header"> Data tables </div>
+```{r}
+library(readr)
+# Save data to a CSV text file
+write_csv(porgs, "my_porg_data.csv")
+```
+
+<div class="in-header"> Plots and images </div>
+```{r}
+library(ggsave)
+# Save the last plot you viewed
+ggsave("2019_porg_plot.png")
+# Save an earlier named plot
+ggsave(best_plot, "the_best_plot.png")
+```
+</div>
+
+
+<div style="float: left; margin-left: 18px; margin-top: -36px; width: 47.4%;">
+<div class="header" style="margin-left: 8px;"> <i class="far fa-question-circle"></i> HELP! </div>
+<div class="linebox" style="width: 100%;">
+<div class="in-header"> Online </div>
+
+- Google: `r` or `rstats` + `"question"`
+- [Stackoverflow.com](https://stackoverflow.com/questions/12675147/how-can-we-make-xkcd-style-graphs) + `[r]` tag
+- Email us!
+
+<div class="in-header"> From R </div>
+
+- Go to `Help > Cheatsheets`
+- Type `?` in the _Console_
+```{r}
+# Function help
+?read_csv
+# Search help
+help.search("boxplot")
+```
+</div>
+</div>
+
+
+<div style="float: left; margin-top: -32px; width: 49.9%;">
+<div class="header" style="margin-left: 8px;"> SHORTCUTS </div>
+<div class="linebox" style="width: 100%; padding-top: 12px; padding-bottom: 0;">
+
+- Run line: `CTRL`+`ENTER`
+- Save script: `CTRL`+`S`
+- Tidy code: `highlight`+`CTRL`+`Shift`+`A`
+
+<div class="in-header"> Find data </div>
+![](import_dataset.png)
+
+</div></div>
+
+<div style="float: left; margin-left: 19px; margin-top: 20px; width: 47.3%;">
+<div class="header" style=""> <i class="fas fa-users"></i> R COMMUNITY </div>
+<div class="fullbox" style="padding-top: 12px; float: left;">
+
+- `#rstats` on <i class="fa fa-twitter"></i>
+- ROpenSci.org
+- RLadies.org
+- R-Bloggers.com
+- __useR__ Conferences
+
+</div></div></div>
+
+
+<br>
+
+<div class="clearbox" style="clear: both; width: 48.6%; margin-top: -282px;">
+<div class="header"> IFELSE: YES/NO CONDITIONS </div>
+<div class="linebox" style="width: 83%;">
+<p class="in-header" style="font-size: 16px; margin-top: 4px; margin-bottom: 5px; margin-left: 4px;"> Use `ifelse()` to create new values that depend on the value of another column. For example, to only label the porgs with a height over _60cm_ as "tall".</p>
+```{r}
+# If a porg's height is > 60cm label it as "tall", 
+# otherwise label as "short"
+mutate(porgs, label = ifelse(height > 60, "tall", "short"))
+```
+</div>
+
+</div>
+
+<div class="clearbox" style="width: 100%; color: white; margin-left: 0; margin-top: -40px; clear: both;">
+<div class="bluebox" style="padding-bottom: 5px; margin-top: 18px; margin-left: -20px; padding-left: 30px; padding-right: 48px; width: 100.4%;">
+<div class="header" style="margin-bottom: 6px; color: white; margin-top: 10px;"> THE R TEAM </div>
+<div style="width: 70%;">
+
+<div class="tiny" style="margin-left: 195px; margin-top:-36px;">
+<div style="float: left;">
+![](https://image.flaticon.com/icons/svg/194/194638.svg){width=34 style="float: left; margin-right: 10px;"} Melinda.Ronca-Battista
+</div>
+<div style="float: left; margin-left: 3%;">
+![](https://image.flaticon.com/icons/svg/194/194623.svg){width=34 style="float: left; margin-right: 10px;"} Jaime.Yazzie
+</div>
+
+<div style="float: left; margin-left: 3%;">
+![](https://image.flaticon.com/icons/svg/141/141785.svg){width=34 style="float: left; margin-right: 10px;"} Vallen.Cook
+</div>
+
+<div style="float: left; margin-left: 3%;">
+![](https://image.flaticon.com/icons/svg/185/185815.svg){width=34 style="float: left; margin-right: 10px;"} Kristie.Ellickson 
+</div>
+
+<div style="float: left; margin-left: 3%;">
+![](https://image.flaticon.com/icons/svg/185/185840.svg){width=34 style="float: left; margin-right: 10px;"} Dorian.Kvale
+</div>
+</div>
+</div></div></div>
+
+
+![](dplyr_hex.png){style="width: 64px; top: 160px; left: 272px; float: left; position: absolute;"}
+
+![](lubridate_sm.png){style="width: 64px; top: 160px; left: 692px; float: left; position: absolute;"}
+
+```{r, echo=F}
+<div class="box">
+<div class="header"> Get R! </div>
+RStudio is a free working environment for R. It helps visualize the data you're analyzing, keep projects organized and share your work.
+
+<div class="fullbox" style="background-color: lightgrey;">
+__Install R__
+https://cran.r-project.org/bin/windows/base/
+
+__Install RStudio__
+https://www.rstudio.com/products/rstudio/download/
+
+</div></div>
+
+
+<div class="clearbox" style="width: 19.2%;">
+<div class="bluebox" style="width: 100%;">
+
+<p style="color: white; font-size: 24px; font-weight: 800;">
+"THIS IS A PLAIN BLUE BOX WITH A PROFOUND STATEMENT"
+</p>
+<p class="reference">
+&#8212; _A wise individual_
+</p>
+</div></div>
+
+
+![](https://image.flaticon.com/icons/svg/194/194638.svg){width=34 style="float: left; margin-right: 12px;"} [Melinda.Ronca-Battista@nau.edu](Melinda.Ronca-Battista@nau.edu)
+
+![](https://image.flaticon.com/icons/svg/194/194638.svg){width=34 style="float: left; margin-right: 12px;"} [VallenC@grandportage.com](Vallenc@grandportage.com)
+
+![](https://image.flaticon.com/icons/svg/194/194623.svg){width=34 style="float: left; margin-right: 12px;"} [Jaime.Yazzie@nau.edu](Jaime.Yazzie@nau.edu)
+
+```
+

@@ -1,0 +1,285 @@
+---
+output: 
+  html_document:
+    css: "css/cheat_style.css"
+---
+
+<div style="margin-top: -99px; color: #FFAA2D; margin-bottom: -10px; font-size: 30px;">
+## R for Environmental Data
+</div>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+```
+
+<div class="clearbox" style="">
+<div class="header"> GET STARTED </div>
+<div class="fullbox" style="">
+<div class="blue-header"> New Project </div>
+`File` >`New Project` > `New Directory`
+
+
+<div class="blue-header"> New R script</div>
+
+`File` > `New File` > `R Script`
+
+<div class="blue-header"> Where am I? </div>
+```{r}
+# Show current working dir
+getwd()
+```
+
+__Files tab__ -> **More** -> _Go To Working Directory_
+
+
+<div class="blue-header"> Install new packages </div>
+```{r}
+install.packages("readr")
+library(readr)
+```
+</div></div>
+
+
+<div class="clearbox">
+<div class="header"> STORE VALUES </div>
+<div class="linebox">
+```{r}
+# Use the left-arrow
+miles <- 355
+
+# Text goes in quotes
+my_name <- "Yoda"
+
+# Multiple values go in c()
+my_pets <- c("Sparky", "Garfield", "Bumpky")
+
+# Avoid numbers, spaces, & symbols: #,*,!
+3*mice <- "bad_name"
+```
+</div></div>
+
+
+<div class="clearbox" style="margin-left: 20px;">
+<div class="header"> READ DATA </div>
+
+<div class="linebox">
+```{r}
+library(readr)
+my_data <- read_csv("txt_file.csv")
+```
+<i class="fa fa-file-text-o" aria-hidden="true" style="float: right;"></i><i class="fa fa-file-text" aria-hidden="true" style="float: right;"></i>
+
+<p>- - - - - </p>
+
+```{r}
+library(readxl)
+my_data <- read_excel("Excel_file.xlsx")
+```
+<i class="fa fa-file-text-o" aria-hidden="true" style="float: right;"></i><i class="fa fa-file-text" aria-hidden="true" style="float: right;"></i>
+</div>
+
+
+<div class="header"> EXPLORE </div>
+<div class="linebox">
+```{r}
+nrow(my_data)
+names()
+summary()
+library(dplyr)
+glimpse()
+```
+</div>
+</div>
+
+
+<div class="clearbox" style="">
+<div class="header"> CLEAN NAMES</div>
+<div class="linebox">
+```{r}
+# Simplify all column names
+library(janitor)
+my_data <- clean_names(my_data)
+
+# Assign new names
+library(dplyr)
+# New name goes on left: new_name = `curent name` 
+my_data <- rename(my_data, ozone = `O3 ConCentraions ppb`)
+```
+</div></div>
+
+
+```{r, echo=F}
+<div class="box">
+<div class="header"> Get R! </div>
+RStudio is a free working environment for R. It helps visualize the data you're analyzing, keep projects organized and share your work.
+
+<div class="fullbox" style="background-color: lightgrey;">
+__Install R__
+https://cran.r-project.org/bin/windows/base/
+
+__Install RStudio__
+https://www.rstudio.com/products/rstudio/download/
+
+</div></div>
+```
+
+
+<div style="clear: both;"></div>
+
+<div class="clearbox" style="">
+<div class="header"> FILTER </div>
+<div class="linebox">
+```{r}
+library(dplyr)
+# Only keep rows with ozone greater than zero
+filter(my_data, ozone > 0)
+# Keep rows with site name Fond du Lac
+filter(my_data, site_name == "Fond du Lac")
+# Keep sites Fond du Lac or Pechanga
+filter(my_data, site_name %in% c("Fond du Lac", "Pechanga"))
+```
+</div>
+
+
+<div class="header"> HELP! </div>
+<div class="linebox">
+```{r}
+# Function help
+?read_csv
+# Package help
+??readr
+# Search help
+help.search("boxplot")
+```
+</div>
+</div>
+
+
+<div class="clearbox" style="">
+<div class="header"> SUMMARIZE </div>
+<div class="linebox">
+```{r}
+library(dplyr)
+# Summarize entire table
+summarize(my_data, avg_ozone = mean(ozone))
+# Summary by site
+group_by(my_data, site_id) %>%
+   summarize(avg_ozone = mean(ozone))
+```
+</div>
+
+
+<div class="header"> SHORTCUTS </div>
+<div class="linebox">
+
+- Run line
+- Save script
+- left arrow
+
+Read data
+
+- point click option
+
+</div>
+
+</div>
+
+<div class="clearbox" style="width: 33%; margin-left: 20px;">
+<div class="header"> PLOTS </div>
+<div class="linebox" style="background-color: #FFAA2D;">
+```{r}
+library(ggplot2)
+
+ggplot(my_data, aes(x = date, y = ozone)) +
+  geom_point() +
+  theme_minimal()
+```
+
+```{r}
+# Add horiz line + title
+ggplot(my_data, aes(x = date, y = ozone)) +
+  geom_point() +
+  geom_hline() +
+  titles("Ozone 2017", "subtitle", caption = "reputable data source")
+```
+
+```{r}
+ggplot(my_data) + geom_line()
+
+ggplot(my_data) + facet_wrap()
+```
+</div></div>
+
+
+<div class="clearbox" style="width: 16%; border-radius: 4px; margin-right: 0;">
+<div class="header"> &nbsp; </div>
+<div class="linebox" style="background-color: #FFAA2D;">
+Cool plot 
+
+<br>
+
+Cool plot2
+
+<br>
+
+Magic magic
+</div></div>
+
+
+<div style="clear: both;"></div>
+
+
+<div class="clearbox" style="width: 29.2%;">
+<div class="fullbox">
+<div class="header" style="margin-bottom: 6px;"> Instructors </div>
+
+![](https://image.flaticon.com/icons/svg/194/194638.svg){width=34 style="float: left; margin-right: 12px;"} [Melinda.Ronca-Battista@nau.edu](Melinda.Ronca-Battista@nau.edu)
+
+![](https://image.flaticon.com/icons/svg/194/194623.svg){width=34 style="float: left; margin-right: 12px;"} [Kristie.Ellickson@state.mn.us](kristie.ellickson@state.mn.us)
+
+![](https://image.flaticon.com/icons/svg/194/194638.svg){width=34 style="float: left; margin-right: 12px;"} [VallenC@grandportage.com](Vallenc@grandportage.com)
+
+![](https://image.flaticon.com/icons/svg/194/194623.svg){width=34 style="float: left; margin-right: 12px;"} [Dorian.Kvale@state.mn.us](dorian.kvale@state.mn.us)
+
+![](https://image.flaticon.com/icons/svg/194/194623.svg){width=34 style="float: left; margin-right: 12px;"} [Jaime.Yazzie@nau.edu](Jaime.Yazzie@nau.edu)
+
+</div></div>
+
+<div class="clearbox" style="width: 19.2%;">
+<div class="bluebox" style="width: 100%;">
+<div class="header"> &nbsp; </div>
+
+<p style="color: white; font-size: 24px; font-weight: 800;">
+"THIS IS A PLAIN BLUE BOX WITH A PROFOUND STATEMENT"
+</p>
+<p class="reference">
+&#8212;__A wise__,ividual
+</p>
+</div></div>
+
+<div class="clearbox" style="margin-left: 20px; margin-top: -40px;">
+<div class="header"> SAVE PLOTS </div>
+<div class="linebox">
+```{r}
+library(ggsave)
+# Save last plot
+ggsave("2019-02-012_ozone_plot.png")
+# Save an earlier plot that you named
+ggsave(named_plot, "2019-02-012_ozone_plot.png")
+```
+</div></div>
+
+
+<div class="clearbox" style="margin-top: -40px;">
+<div class="header"> SAVE DATA </div>
+<div class="linebox">
+```{r}
+library(readr)
+# Save to CSV text file
+write_csv(my_data, "my_cleaned_data.csv")
+```
+</div></div>
+
+
+
+
