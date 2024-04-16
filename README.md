@@ -1,4 +1,4 @@
-# cheatsheet
+# R cheatsheet
 
 ### R cheatsheet for Minnesota data
 
