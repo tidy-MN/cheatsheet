@@ -1,7 +1,5 @@
 # R cheatsheet
 
-### R cheatsheet for Minnesota data
-
 <br>
 
 
